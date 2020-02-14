@@ -1,2 +1,2 @@
-# cinlloc.github.com
+# cinlloc.github.io
 Cinlloc's personal blog
