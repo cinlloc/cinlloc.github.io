@@ -1,2 +1,2 @@
 # cinlloc.github.io
-Cinlloc's personal blog
+Cinlloc's site, in markdown
