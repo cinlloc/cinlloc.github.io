@@ -1,4 +1,16 @@
 # Linux's notes
+## Fedora
+### Can't boot into Fedora: SELinux errors
+#### Context
+Lost user password on a Fedora installation. Boot on live USB stick and chroot to change password. Changed also groups created a new user.   
+#### Description
+A bunch of error occurs during boot phase, e.g. `Failed to start Load Kernel Modules.`, and a huge amount of files cannot be read because of SELinux erros: `audit[744]: AVC avc:  denied  { read } for  pid=744 comm="alsactl" name="ld.so.cache" dev="nvme0n1p3" ino=10487091 sconte...`.
+#### Root cause
+Modifying `/etc/passwd`, `/etc/shadow`, `/etc/group` from a chrooted context changed SELinux labelling?
+#### Solution
+Force SELinux relabel:
+1. Boot without SELinux: on Grub menu, type `e` then add `selinux=0` to `linux...` kernel line
+2. Once booted, reboot: relabelling will occur
 ## Manjaro
 ### Can’t boot into Manjaro: File ‘/vmlinuz-4.14’ not found.
 #### Context
