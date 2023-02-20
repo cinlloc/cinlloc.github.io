@@ -68,4 +68,8 @@ Remove uninstalled package files by running: `dpkg --list |grep "^rc" | cut -d "
 
 Then restart.
 
-If not sufficient, change initramfs compression: cf. https://bugs.launchpad.net/ubuntu/+source/ubuntu-release-upgrader/+bug/1988299
+If not sufficient, change initramfs compression. Edit `/etc/initramfs-tools/initramfs.conf` and set `COMPRESS=xz`, then `sudo update-initramfs -u -k all`.
+
+#### Sources
+* https://bugs.launchpad.net/ubuntu/+source/ubuntu-release-upgrader/+bug/1988299
+* https://askubuntu.com/questions/1429216/very-high-boot-space-requirement-to-go-from-20-04-to-22-04-preventing-upgrade
