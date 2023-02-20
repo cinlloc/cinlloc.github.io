@@ -52,7 +52,7 @@ mount -t devpts pts /mnt/dev/pts/
 ## Ubuntu
 ### The upgrade needs a total of xxx M free space on disk `/boot`.
 #### Context
-Occurred when trying to update kernel.
+Occurred when trying to update kernel, with Ubuntu 22.04 LTS.
 #### Description
 When running software updater, have following error:
 ```
@@ -65,5 +65,7 @@ using `sudo apt-get clean`.
 `/boot` partition full of old kernel configuration files. (can check with `df -h | grep boot`)
 #### Solution
 Remove uninstalled package files by running: `dpkg --list |grep "^rc" | cut -d " " -f 3 | xargs sudo dpkg --purge`
+
 Then restart.
+
 If not sufficient, change initramfs compression: cf. https://bugs.launchpad.net/ubuntu/+source/ubuntu-release-upgrader/+bug/1988299
