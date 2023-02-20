@@ -1,4 +1,5 @@
 # Linux's notes
+
 ## Fedora
 ### Can't boot into Fedora: SELinux errors
 #### Context
@@ -11,6 +12,7 @@ Modifying `/etc/passwd`, `/etc/shadow`, `/etc/group` from a chrooted context cha
 Force SELinux relabel:
 1. Boot without SELinux: on Grub menu, type `e` then add `selinux=0` to `linux...` kernel line
 2. Once booted, reboot: relabelling will occur
+
 ## Manjaro
 ### Can’t boot into Manjaro: File ‘/vmlinuz-4.14’ not found.
 #### Context
@@ -46,3 +48,22 @@ mount -t devpts pts /mnt/dev/pts/
 * https://wiki.manjaro.org/index.php/Restore_the_GRUB_Bootloader
 * https://superuser.com/questions/1329646/why-do-i-have-to-specify-dns-when-using-chroot
 * https://webcache.googleusercontent.com/search?q=cache:LmTwqggwd_QJ:https://forum.manjaro.org/t/error-file-boot-vmlinuz-not-found/148554+&cd=1&hl=fr&ct=clnk&gl=fr&client=firefox-b-d
+
+## Ubuntu
+### The upgrade needs a total of xxx M free space on disk `/boot`.
+#### Context
+Occurred when trying to update kernel.
+#### Description
+When running software updater, have following error:
+```
+The upgrade needs a total of 25.3 M free space on disk `/boot`.
+Please free at least an additional 25.3 M of disk space on `/boot`.
+Empty your trash and remove temporary packages of former installations 
+using `sudo apt-get clean`.
+```
+#### Root cause
+`/boot` partition full of old kernel configuration files. (can check with `df -h | grep boot`)
+#### Solution
+Remove uninstalled package files by running: `dpkg --list |grep "^rc" | cut -d " " -f 3 | xargs sudo dpkg --purge`
+Then restart.
+If not sufficient, change initramfs compression: cf. https://bugs.launchpad.net/ubuntu/+source/ubuntu-release-upgrader/+bug/1988299
