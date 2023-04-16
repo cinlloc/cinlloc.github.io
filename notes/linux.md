@@ -49,6 +49,48 @@ mount -t devpts pts /mnt/dev/pts/
 * https://superuser.com/questions/1329646/why-do-i-have-to-specify-dns-when-using-chroot
 * https://webcache.googleusercontent.com/search?q=cache:LmTwqggwd_QJ:https://forum.manjaro.org/t/error-file-boot-vmlinuz-not-found/148554+&cd=1&hl=fr&ct=clnk&gl=fr&client=firefox-b-d
 
+### Can´t update via pacman because GPGME error ¨No data¨
+#### Description
+When I’m trying to update using pacman, say using sudo pacman -Syyu, I’m getting a bunch of errors that I can’t seem to fix:
+```
+sudo pacman -Syyu
+error: GPGME error: No data
+error: GPGME error: No data
+error: GPGME error: No data
+error: GPGME error: No data
+:: Synchronizing package databases...
+ core                                        170.6 KiB   552 KiB/s 00:00 [########################################] 100%
+ extra                                      1901.8 KiB  7.52 MiB/s 00:00 [########################################] 100%
+ community                                     6.6 MiB  9.08 MiB/s 00:01 [########################################] 100%
+ multilib                                    177.4 KiB  3.21 MiB/s 00:00 [########################################] 100%
+error: GPGME error: No data
+error: GPGME error: No data
+error: GPGME error: No data
+error: GPGME error: No data
+error: failed to synchronize all databases (invalid or corrupted database (PGP signature))
+```
+#### Solution
+* In `/etc/pacman.conf`, change : 
+```
+# By default, pacman accepts packages signed by keys that its local keyring
+# trusts (see pacman-key and its man page), as well as unsigned packages.
+SigLevel    = Required DatabaseOptional
+LocalFileSigLevel = Optional
+#RemoteFileSigLevel = Required
+```
+to
+```
+....
+SigLevel    = Required DatabaseNever
+....
+```
+* `sudo rm -f /var/lib/pacman/sync/*`
+* `sudo pacman-mirrors --continent`
+* `sudo pacman -Syyu`
+
+#### Sources
+* https://forum.manjaro.org/t/root-tip-how-to-mitigate-and-prevent-gpgme-error-when-syncing-your-system/84700
+
 ## Ubuntu
 ### The upgrade needs a total of xxx M free space on disk `/boot`.
 #### Context
